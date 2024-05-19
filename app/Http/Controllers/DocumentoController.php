@@ -39,8 +39,10 @@ class DocumentoController extends Controller
      */
     public function store(Request $request)
     {
-        $documento = $request->except('_token');
-        Documento::codificacion($documento);
+        $datos = $request->except('_token');
+        $codigo = Documento::codificacion($datos);
+        $documento = new Documento();
+        Documento::crearDocumento($datos, $codigo);
     }
 
     /**
