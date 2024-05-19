@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\TipoDocumento;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TipoDocumentoSeeder extends Seeder
 {
@@ -14,7 +15,8 @@ class TipoDocumentoSeeder extends Seeder
      */
     public function run()
     {
-        TipoDocumento::create([
+        $data = [
+            [
                 'TIP_NOMBRE' => 'Instructivo', 
                 'TIP_PREFIJO' => 'INS'
             ],
@@ -34,6 +36,7 @@ class TipoDocumentoSeeder extends Seeder
                 'TIP_NOMBRE' => 'Incumplimiento de horario', 
                 'TIP_PREFIJO' => 'IDH'
             ]
-        );
+        ];
+        DB::table('TIP_TIPO_DOC')->insert($data);
     }
 }

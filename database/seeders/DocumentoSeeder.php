@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Documento;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DocumentoSeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class DocumentoSeeder extends Seeder
      */
     public function run()
     {
-        Documento::create(
+        $data = [
             [
                 'DOC_NOMBRE' => 'General de ingenieria',
                 'DOC_CODIGO' => 'INS-ING-1',
@@ -50,6 +51,7 @@ class DocumentoSeeder extends Seeder
                 'DOC_ID_TIPO' => '5',
                 'DOC_ID_PROCESO' => '5'
             ],
-        );
+        ];
+        DB::table('DOC_DOCUMENTO')->insert($data);
     }
 }

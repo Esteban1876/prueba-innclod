@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Documento;
+use App\Models\Proceso;
+use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 
 class DocumentoController extends Controller
@@ -24,7 +26,9 @@ class DocumentoController extends Controller
      */
     public function create()
     {
-        //
+        $prefijosTipoDocumento = TipoDocumento::all();
+        $prefijosProcesos = Proceso::all();
+        return view('documento.create', ['prefijosTipoDocumento' => $prefijosTipoDocumento, 'prefijoProcesos' => $prefijosProcesos]);
     }
 
     /**
@@ -35,7 +39,8 @@ class DocumentoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $documento = $request->except('_token');
+        Documento::codificacion($documento);
     }
 
     /**
