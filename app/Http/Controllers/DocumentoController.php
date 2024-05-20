@@ -50,20 +50,25 @@ class DocumentoController extends Controller
      */
     public function store(Request $request)
     {
-        /*
         $campos = [
-            'Nombre' => 'required|string|max:50',
-            'Contenido' => 'required|string|max:100',
-            'Tipo documento' => 'required',
-            'Proceso' => 'required',
+            'DOC_NOMBRE' => 'required',
+            'DOC_CONTENIDO' => 'required',
+            'DOC_ID_TIPO' => 'required',
+            'DOC_ID_PROCESO' => 'required'
+        ];
+
+        $nombresPersonalizados = [
+            'DOC_NOMBRE' => 'Nombre',
+            'DOC_CONTENIDO' => 'Contenido',
+            'DOC_ID_TIPO' => 'Tipo documento',
+            'DOC_ID_PROCESO' => 'Proceso'
         ];
 
         $mensaje = [
             'required' => 'El campo :attribute es obligatorio'
         ];
 
-        $this->validate($request, $campos, $mensaje);
-        */
+        $this->validate($request, $campos, $mensaje, $nombresPersonalizados);
 
         $datos = $request->except('_token');
         $codigo = Documento::codificacion($datos);
@@ -115,17 +120,24 @@ class DocumentoController extends Controller
     public function update(Request $request, $id)
     {
         $campos = [
-            'Nombre' => 'required|string|max:50',
-            'Contenido' => 'required|string|max:100',
-            'Tipo documento' => 'required',
-            'Proceso' => 'required',
+            'DOC_NOMBRE' => 'required',
+            'DOC_CONTENIDO' => 'required',
+            'DOC_ID_TIPO' => 'required',
+            'DOC_ID_PROCESO' => 'required'
+        ];
+
+        $nombresPersonalizados = [
+            'DOC_NOMBRE' => 'Nombre',
+            'DOC_CONTENIDO' => 'Contenido',
+            'DOC_ID_TIPO' => 'Tipo documento',
+            'DOC_ID_PROCESO' => 'Proceso'
         ];
 
         $mensaje = [
             'required' => 'El campo :attribute es obligatorio'
         ];
 
-        $this->validate($request, $campos, $mensaje);
+        $this->validate($request, $campos, $mensaje, $nombresPersonalizados);
 
         $datos = $request->except(['_token', '_method']);
 

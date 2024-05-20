@@ -1,17 +1,25 @@
 <h1 class="fw-bold fs-1">{{$accion}} documento</h1>
 
-
+@if (count($errors)>0)
+    <div class="alert alert-danger role="alert"> 
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{$error}}</li>
+            @endforeach
+        </ul>  
+    </div>
+@endif
 
 <div class="mb-3">
     <label for="nombre" class="form-label">Nombre:</label>
-    <input type="text" class="form-control" name="DOC_NOMBRE" value="{{isset($documento->DOC_NOMBRE) ? $documento->DOC_NOMBRE : ''}}" id="DOC_NOMBRE">
-    <input type="hidden" name="DOC_CODIGO" value="{{isset($documento->DOC_CODIGO) ? $documento->DOC_CODIGO : old('DOC_CODIGO')}}">
+    <input type="text" class="form-control" name="DOC_NOMBRE" value="{{isset($documento->DOC_NOMBRE) ? $documento->DOC_NOMBRE : old('DOC_NOMBRE')}}" id="DOC_NOMBRE">
+    <input type="hidden" name="DOC_CODIGO" value="{{isset($documento->DOC_CODIGO) ? $documento->DOC_CODIGO : 0}}">
     <input type="hidden" name="DOC_ID" value="{{isset($documento->DOC_ID) ? $documento->DOC_ID : 0}}">
 </div>
     
 <div class="mb-3">
     <label for="contenido" class="form-label">Contenido:</label>
-    <input type="text" class="form-control" name="DOC_CONTENIDO" value="{{isset($documento->DOC_CONTENIDO) ? $documento->DOC_CONTENIDO : ''}}" id="DOC_CONTENIDO">
+    <input type="text" class="form-control" name="DOC_CONTENIDO" value="{{isset($documento->DOC_CONTENIDO) ? $documento->DOC_CONTENIDO : old('DOC_CONTENIDO')}}" id="DOC_CONTENIDO">
 </div>
     
 <div class="mb-3">
