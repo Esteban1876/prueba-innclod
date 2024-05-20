@@ -50,15 +50,25 @@ class DocumentoController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $datos = $request->except('_token');
-            $codigo = Documento::codificacion($datos);
-            Documento::guardarDocumento($datos, $codigo, 'create');
-            return redirect('documento')->with('mensaje', 'Documento creado con éxito');
-        } catch (\Throwable $e) {
-            HTTPErrors::throwError($e, __FILE__);
-        }
-        
+        /*
+        $campos = [
+            'Nombre' => 'required|string|max:50',
+            'Contenido' => 'required|string|max:100',
+            'Tipo documento' => 'required',
+            'Proceso' => 'required',
+        ];
+
+        $mensaje = [
+            'required' => 'El campo :attribute es obligatorio'
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+        */
+
+        $datos = $request->except('_token');
+        $codigo = Documento::codificacion($datos);
+        Documento::guardarDocumento($datos, $codigo, 'create');
+        return redirect('documento')->with('mensaje', 'Documento creado con éxito');       
     }
 
     /**
@@ -104,30 +114,38 @@ class DocumentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
-            $datos = $request->except(['_token', '_method']);
+        $campos = [
+            'Nombre' => 'required|string|max:50',
+            'Contenido' => 'required|string|max:100',
+            'Tipo documento' => 'required',
+            'Proceso' => 'required',
+        ];
 
-            $cambioCodigo = Documento::validaCambioCodigo($datos);
-            if ($cambioCodigo == true) {
-                $codigo = Documento::codificacion($datos);
-                Documento::guardarDocumento($datos, $codigo, 'edit');
-            } else {
-                Documento::where('DOC_ID', '=', $id)->update($datos);
-            }
+        $mensaje = [
+            'required' => 'El campo :attribute es obligatorio'
+        ];
 
-            $prefijosTipoDocumento = TipoDocumento::all();
-            $documento = Documento::findOrfail($id);
-            $prefijosProcesos = Proceso::all();
-            return view('documento.edit', 
-            [
-                'prefijosTipoDocumento' => $prefijosTipoDocumento,
-                'prefijoProcesos' => $prefijosProcesos,
-                'documento' => $documento
-            ]);
-        } catch (\Throwable $e) {
-            HTTPErrors::throwError($e, __FILE__);
+        $this->validate($request, $campos, $mensaje);
+
+        $datos = $request->except(['_token', '_method']);
+
+        $cambioCodigo = Documento::validaCambioCodigo($datos);
+        if ($cambioCodigo == true) {
+            $codigo = Documento::codificacion($datos);
+            Documento::guardarDocumento($datos, $codigo, 'edit');
+        } else {
+            Documento::where('DOC_ID', '=', $id)->update($datos);
         }
-        
+
+        $prefijosTipoDocumento = TipoDocumento::all();
+        $documento = Documento::findOrfail($id);
+        $prefijosProcesos = Proceso::all();
+        return view('documento.edit', 
+        [
+            'prefijosTipoDocumento' => $prefijosTipoDocumento,
+            'prefijoProcesos' => $prefijosProcesos,
+            'documento' => $documento
+        ]);
     }
 
     /**

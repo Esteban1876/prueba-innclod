@@ -31,7 +31,7 @@ class CrearTablasConRelaciones extends Migration
             $table->id('DOC_ID')->autoIncrement();
             $table->string('DOC_NOMBRE', 50)->notNull();
             $table->string('DOC_CODIGO', 15)->unique()->nullable();
-            $table->text('DOC_CONTENIDO')->notNull();
+            $table->text('DOC_CONTENIDO', 100)->notNull();
 
             $table->integer('DOC_ID_TIPO')->nullable();
             $table->integer('DOC_ID_PROCESO')->nullable();

@@ -3,14 +3,16 @@
 @section('content')
 <div class="container">
 
-    Lista de documentos
+    <p class="fw-bold fs-1">Lista de documentos</p>
 
     @if (Session::has('mensaje'))
-        {{Session::get('mensaje')}}    
+        <div class="alert alert-success fw-bold fs-5" role="alert">
+            {{Session::get('mensaje')}}      
+        </div>
     @endif
 
     <table class="table table-light">
-        <thead class="thead-light">
+        <thead class="thead-light text-center fs-5">
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
@@ -21,7 +23,7 @@
                 <th>Acciones</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center fs-6">
             @foreach ($documentos as $documento)
                 <tr>
                     <td> {{$documento->DOC_ID}} </td>
@@ -31,18 +33,14 @@
                     <td> {{$documento->tipoDocumentos->TIP_PREFIJO}} </td>
                     <td> {{$documento->procesos->PRO_PREFIJO}} </td>
                     <td> 
-                        <a href="{{url('/documento/create')}}">Crear</a> 
-
-                        |
+                        <a href="{{url('/documento/create')}}" class="btn btn-primary">Crear</a> 
                         
-                        <a href="{{ url('/documento/'.$documento->DOC_ID.'/edit')}}">Editar</a>
-
-                        | 
+                        <a href="{{ url('/documento/'.$documento->DOC_ID.'/edit')}}" class="btn btn-secondary">Editar</a>
                     
-                        <form action="{{url('/documento/'.$documento->DOC_ID)}}" method="post">
+                        <form action="{{url('/documento/'.$documento->DOC_ID)}}" method="post" class="d-inline">
                             @csrf
                             {{ method_field('DELETE') }}
-                            <input type="submit" onclick="return confirm('¿Quieres eliminar el documento?')" value="Eliminar">
+                            <input type="submit" onclick="return confirm('¿Quieres eliminar el documento?')" value="Eliminar" class="btn btn-danger">
                         </form>
 
                     </td>
