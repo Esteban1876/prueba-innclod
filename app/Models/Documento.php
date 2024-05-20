@@ -13,30 +13,54 @@ class Documento extends Model
     use HasFactory;
     protected $table = 'DOC_DOCUMENTO';
     protected $primaryKey = 'DOC_ID';  
+    protected $fillable = [];
     private $DOC_NOMBRE;
     private $DOC_CODIGO;
     private $DOC_CONTENIDO;
     private $DOC_ID_TIPO;
     private $DOC_ID_PROCESO;
     
-    // si edito sin cambiar las sigas se crea otro codigo?
-    public static function codificacion($documento) {
+    public static function validaCambioCodigo($documento) {
+        try {
+            $codigoGenerado = Documento::generaCodigoSinConsecutivo($documento);
+            $codigoActual = preg_replace('/\d+/', '', $documento['DOC_CODIGO']); 
+            if ($codigoGenerado == $codigoActual) {
+                return false;
+            } else  {
+                return true;
+            }
+        } catch (\Throwable $e) {
+            HTTPErrors::throwError($e, __FILE__);
+        }
+    }
+
+    private static function generaCodigoSinConsecutivo($documento) {
         try {
             $codigoTipoDocumento = TipoDocumento::where('TIP_ID', $documento['DOC_ID_TIPO'])->first()->TIP_PREFIJO;
             $codigoProceso = Proceso::where('PRO_ID', $documento['DOC_ID_PROCESO'])->first()->PRO_PREFIJO;
-            $codigo = $codigoTipoDocumento . '-' . $codigoProceso;
+            $codigo = $codigoTipoDocumento . '-' . $codigoProceso . '-';
+        return $codigo;
+        } catch (\Throwable $e) {
+            HTTPErrors::throwError($e, __FILE__);
+        }
+        
+    }
 
+    // si edito sin cambiar las sigas se crea otro codigo?
+    public static function codificacion($documento) {
+        try {
+            $codigo = Documento::generaCodigoSinConsecutivo($documento);
             $ultimoRegistro = Documento::orderBy('DOC_CODIGO', 'desc')->where('DOC_CODIGO', 'ilike', '%'.$codigo.'%')->value('DOC_CODIGO');
 
             $codigoDocumento = "";
             if (is_null($ultimoRegistro)) {
-                $codigoDocumento = $codigo . "-". 1;
+                $codigoDocumento = $codigo . 1;
             } else {
                 preg_match_all('/\d+/', $ultimoRegistro, $coincidencias);
                 if (!empty($coincidencias)) {
                     $consecutivo = $coincidencias[0];
                     $incrementado = $consecutivo[0] + 1;
-                    $codigoDocumento = $codigo . "-" . $incrementado;
+                    $codigoDocumento = $codigo . $incrementado;
                 }
             }
             
@@ -44,10 +68,9 @@ class Documento extends Model
         } catch (\Throwable $e) {
             HTTPErrors::throwError($e, __FILE__);
         }
-        
     }
 
-    public static function crearDocumento($documento, $codigo) {
+    public static function guardarDocumento($documento, $codigo, $accion) {
         try {
             $data = 
             [
@@ -58,7 +81,11 @@ class Documento extends Model
                 'DOC_ID_PROCESO' => $documento['DOC_ID_PROCESO']
             ];
 
-            DB::table('DOC_DOCUMENTO')->insert($data);
+            if ($accion == 'create') {
+                DB::table('DOC_DOCUMENTO')->insert($data);
+            } else {
+                DB::table('DOC_DOCUMENTO')->where('DOC_ID', '=', $documento['DOC_ID'])->update($data);
+            }  
         } catch (\Throwable $e) {
             HTTPErrors::throwError($e, __FILE__);
         }

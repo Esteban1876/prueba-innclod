@@ -53,7 +53,7 @@ class DocumentoController extends Controller
         try {
             $datos = $request->except('_token');
             $codigo = Documento::codificacion($datos);
-            Documento::crearDocumento($datos, $codigo);
+            Documento::guardarDocumento($datos, $codigo, 'create');
         } catch (\Throwable $e) {
             HTTPErrors::throwError($e, __FILE__);
         }
@@ -79,17 +79,19 @@ class DocumentoController extends Controller
      */
     public function edit($id)
     {
-        
+        try {
             $prefijosTipoDocumento = TipoDocumento::all();
             $prefijosProcesos = Proceso::all();
             $documento = Documento::findOrfail($id);
             return view('documento.edit', 
             [
-                'prefijosTipoDocumento' => $prefijosTipoDocumento, 'selected' => null,
+                'prefijosTipoDocumento' => $prefijosTipoDocumento,
                 'prefijoProcesos' => $prefijosProcesos,
                 'documento' => $documento
             ]);
-        
+        } catch (\Throwable $e) {
+            HTTPErrors::throwError($e, __FILE__);
+        }
     }
 
     /**
@@ -99,9 +101,32 @@ class DocumentoController extends Controller
      * @param  \App\Models\Documento  $documento
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Documento $documento)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $datos = $request->except(['_token', '_method']);
+
+            $cambioCodigo = Documento::validaCambioCodigo($datos);
+            if ($cambioCodigo == true) {
+                $codigo = Documento::codificacion($datos);
+                Documento::guardarDocumento($datos, $codigo, 'edit');
+            } else {
+                Documento::where('DOC_ID', '=', $id)->update($datos);
+            }
+
+            $prefijosTipoDocumento = TipoDocumento::all();
+            $documento = Documento::findOrfail($id);
+            $prefijosProcesos = Proceso::all();
+            return view('documento.edit', 
+            [
+                'prefijosTipoDocumento' => $prefijosTipoDocumento,
+                'prefijoProcesos' => $prefijosProcesos,
+                'documento' => $documento
+            ]);
+        } catch (\Throwable $e) {
+            HTTPErrors::throwError($e, __FILE__);
+        }
+        
     }
 
     /**

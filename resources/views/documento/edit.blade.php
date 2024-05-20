@@ -3,7 +3,8 @@
     {{ method_field('PATCH') }}
     <label for="nombre">Nombre:</label>
     <input type="text" name="DOC_NOMBRE" value="{{$documento->DOC_NOMBRE}}" id="DOC_NOMBRE"> <br>
-
+    <input type="hidden" name="DOC_CODIGO" value="{{$documento->DOC_CODIGO}}">
+    <input type="hidden" name="DOC_ID" value="{{$documento->DOC_ID}}">
     <label for="contenido">Contenido:</label>
     <input type="text" name="DOC_CONTENIDO" value="{{$documento->DOC_CONTENIDO}}" id="DOC_CONTENIDO"> <br>
 
