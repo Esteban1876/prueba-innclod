@@ -19,7 +19,15 @@
                 <td> {{$documento->DOC_CONTENIDO}} </td>
                 <td> {{$documento->DOC_ID_TIPO}} </td>
                 <td> {{$documento->DOC_ID_PROCESO}} </td>
-                <td> Editar | Borrar </td>
+                <td> Editar | 
+                
+                    <form action="{{url('/documento/'.$documento->DOC_ID)}}" method="post">
+                        @csrf
+                        {{ method_field('DELETE') }}
+                        <input type="submit" onclick="return confirm('¿Quieres eliminar el documento?')" value="Eliminar">
+                    </form>
+
+                </td>
             </tr>
         @endforeach
     </tbody>

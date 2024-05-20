@@ -25,7 +25,7 @@ class Documento extends Model
             $codigoProceso = Proceso::where('PRO_ID', $documento['DOC_ID_PROCESO'])->first()->PRO_PREFIJO;
             $codigo = $codigoTipoDocumento . '-' . $codigoProceso;
 
-            $ultimoRegistro = Documento::orderBy('DOC_CODIGO', 'desc')->where('DOC_CODIGO', 'ilike', '%'.$codigo.'%')->valu('DOC_CODIGO');
+            $ultimoRegistro = Documento::orderBy('DOC_CODIGO', 'desc')->where('DOC_CODIGO', 'ilike', '%'.$codigo.'%')->value('DOC_CODIGO');
 
             $codigoDocumento = "";
             if (is_null($ultimoRegistro)) {

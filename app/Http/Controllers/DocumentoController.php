@@ -100,8 +100,13 @@ class DocumentoController extends Controller
      * @param  \App\Models\Documento  $documento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Documento $documento)
+    public function destroy($docId)
     {
-        //
+        try {
+            Documento::destroy($docId);
+            return redirect('documento');
+        } catch (\Throwable $e) {
+            HTTPErrors::throwError($e, __FILE__);
+        }
     }
 }
