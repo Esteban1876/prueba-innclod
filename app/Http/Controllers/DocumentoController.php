@@ -77,9 +77,19 @@ class DocumentoController extends Controller
      * @param  \App\Models\Documento  $documento
      * @return \Illuminate\Http\Response
      */
-    public function edit(Documento $documento)
+    public function edit($id)
     {
-        //
+        
+            $prefijosTipoDocumento = TipoDocumento::all();
+            $prefijosProcesos = Proceso::all();
+            $documento = Documento::findOrfail($id);
+            return view('documento.edit', 
+            [
+                'prefijosTipoDocumento' => $prefijosTipoDocumento, 'selected' => null,
+                'prefijoProcesos' => $prefijosProcesos,
+                'documento' => $documento
+            ]);
+        
     }
 
     /**

@@ -5,7 +5,7 @@
             <th>Nombre</th>
             <th>Código</th>
             <th>Contenido</th>
-            <th>Tipo de documentoe</th>
+            <th>Tipo de documento</th>
             <th>Proceso</th>
             <th>Acciones</th>
         </tr>
@@ -17,9 +17,15 @@
                 <td> {{$documento->DOC_NOMBRE}} </td>
                 <td> {{$documento->DOC_CODIGO}} </td>
                 <td> {{$documento->DOC_CONTENIDO}} </td>
-                <td> {{$documento->DOC_ID_TIPO}} </td>
-                <td> {{$documento->DOC_ID_PROCESO}} </td>
-                <td> Editar | 
+                <td> {{$documento->tipoDocumentos->TIP_PREFIJO}} </td>
+                <td> {{$documento->procesos->PRO_PREFIJO}} </td>
+                <td> 
+                    
+                    <a href="{{ url('/documento/'.$documento->DOC_ID.'/edit')}}">
+                        Editar
+                    </a>
+
+                    | 
                 
                     <form action="{{url('/documento/'.$documento->DOC_ID)}}" method="post">
                         @csrf

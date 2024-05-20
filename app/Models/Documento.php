@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Utilities\HTTPErrors;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Documento extends Model
 {
@@ -53,13 +54,21 @@ class Documento extends Model
                 'DOC_NOMBRE' => $documento['DOC_NOMBRE'],
                 'DOC_CODIGO' => $codigo,
                 'DOC_CONTENIDO' => $documento['DOC_CONTENIDO'],
-                'DOC_ID_TIPO' => $documento['DOC_ID_PROCESO'],
-                'DOC_ID_PROCESO' => $documento['DOC_ID_TIPO']
+                'DOC_ID_TIPO' => $documento['DOC_ID_TIPO'],
+                'DOC_ID_PROCESO' => $documento['DOC_ID_PROCESO']
             ];
 
             DB::table('DOC_DOCUMENTO')->insert($data);
         } catch (\Throwable $e) {
             HTTPErrors::throwError($e, __FILE__);
         }
+    }
+
+    public function procesos() {
+        return $this->belongsTo(Proceso::class, 'DOC_ID_PROCESO', 'PRO_ID');
+    }
+
+    public function tipoDocumentos() {
+        return $this->belongsTo(TipoDocumento::class, 'DOC_ID_TIPO', 'TIP_ID');
     }
 }
