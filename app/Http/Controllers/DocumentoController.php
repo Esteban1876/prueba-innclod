@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Documento;
 use App\Models\Proceso;
 use App\Models\TipoDocumento;
+use App\Utilities\HTTPErrors;
 use Illuminate\Http\Request;
+use PDOException;
 
 class DocumentoController extends Controller
 {
@@ -16,8 +18,12 @@ class DocumentoController extends Controller
      */
     public function index()
     {
-        $datos = Documento::all();
-        return view('documento.index', ['documentos' => $datos]);
+        try {
+            $datos = Documento::all();
+            return view('documento.index', ['documentos' => $datos]);
+        } catch (\Throwable $e) {
+            HTTPErrors::throwError($e, __FILE__);
+        }
     }
 
     /**
@@ -27,9 +33,13 @@ class DocumentoController extends Controller
      */
     public function create()
     {
-        $prefijosTipoDocumento = TipoDocumento::all();
-        $prefijosProcesos = Proceso::all();
-        return view('documento.create', ['prefijosTipoDocumento' => $prefijosTipoDocumento, 'prefijoProcesos' => $prefijosProcesos]);
+        try {
+            $prefijosTipoDocumento = TipoDocumento::all();
+            $prefijosProcesos = Proceso::all();
+            return view('documento.create', ['prefijosTipoDocumento' => $prefijosTipoDocumento, 'prefijoProcesos' => $prefijosProcesos]);
+        } catch (\Throwable $e) {
+            HTTPErrors::throwError($e, __FILE__);
+        }
     }
 
     /**
@@ -40,9 +50,14 @@ class DocumentoController extends Controller
      */
     public function store(Request $request)
     {
-        $datos = $request->except('_token');
-        $codigo = Documento::codificacion($datos);
-        Documento::crearDocumento($datos, $codigo);
+        try {
+            $datos = $request->except('_token');
+            $codigo = Documento::codificacion($datos);
+            Documento::crearDocumento($datos, $codigo);
+        } catch (\Throwable $e) {
+            HTTPErrors::throwError($e, __FILE__);
+        }
+        
     }
 
     /**
