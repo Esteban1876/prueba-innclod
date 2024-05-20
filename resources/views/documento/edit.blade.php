@@ -1,5 +1,11 @@
-<form action="{{url('/documento/'.$documento->DOC_ID)}}" method="post">
-    @csrf
-    {{ method_field('PATCH') }}
-    @include('/documento.form', ['accion' => 'Editar']);
-</form>  
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <form action="{{url('/documento/'.$documento->DOC_ID)}}" method="post">
+        @csrf
+        {{ method_field('PATCH') }}
+        @include('/documento.form', ['accion' => 'Editar']);
+    </form>  
+</div>
+@endsection
