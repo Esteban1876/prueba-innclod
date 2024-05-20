@@ -1,3 +1,9 @@
+Lista de documentos
+
+@if (Session::has('mensaje'))
+    {{Session::get('mensaje')}}    
+@endif
+
 <table class="table table-dark">
     <thead class="thead-dark">
         <tr>
@@ -20,10 +26,11 @@
                 <td> {{$documento->tipoDocumentos->TIP_PREFIJO}} </td>
                 <td> {{$documento->procesos->PRO_PREFIJO}} </td>
                 <td> 
+                    <a href="{{url('/documento/create')}}">Crear</a> 
+
+                    |
                     
-                    <a href="{{ url('/documento/'.$documento->DOC_ID.'/edit')}}">
-                        Editar
-                    </a>
+                    <a href="{{ url('/documento/'.$documento->DOC_ID.'/edit')}}">Editar</a>
 
                     | 
                 

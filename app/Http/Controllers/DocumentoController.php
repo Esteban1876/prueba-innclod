@@ -54,6 +54,7 @@ class DocumentoController extends Controller
             $datos = $request->except('_token');
             $codigo = Documento::codificacion($datos);
             Documento::guardarDocumento($datos, $codigo, 'create');
+            return redirect('documento')->with('mensaje', 'Documento creado con éxito');
         } catch (\Throwable $e) {
             HTTPErrors::throwError($e, __FILE__);
         }
@@ -139,7 +140,7 @@ class DocumentoController extends Controller
     {
         try {
             Documento::destroy($docId);
-            return redirect('documento');
+            return redirect('documento')->with('mensaje', 'Se elimino el documento');
         } catch (\Throwable $e) {
             HTTPErrors::throwError($e, __FILE__);
         }

@@ -1,3 +1,4 @@
+<h1>{{$accion}} documento</h1>
 <label for="nombre">Nombre:</label>
     <input type="text" name="DOC_NOMBRE" value="{{isset($documento->DOC_NOMBRE) ? $documento->DOC_NOMBRE : ''}}" id="DOC_NOMBRE"> <br>
     <input type="hidden" name="DOC_CODIGO" value="{{isset($documento->DOC_CODIGO) ? $documento->DOC_CODIGO : ''}}">
@@ -24,4 +25,6 @@
             > {{ $data->PRO_PREFIJO . " | " . $data->PRO_NOMBRE }} </option>
         @endforeach
     </select> <br>
-    <input type="submit" value="Enviar">
+    <input type="submit" value="{{$accion}} documento">
+    <br>
+    <a href="{{url('documento/')}}">Regresar</a>
