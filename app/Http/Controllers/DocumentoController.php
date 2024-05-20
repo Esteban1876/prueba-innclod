@@ -16,7 +16,8 @@ class DocumentoController extends Controller
      */
     public function index()
     {
-        //
+        $datos = Documento::all();
+        return view('documento.index', ['documentos' => $datos]);
     }
 
     /**
@@ -41,7 +42,6 @@ class DocumentoController extends Controller
     {
         $datos = $request->except('_token');
         $codigo = Documento::codificacion($datos);
-        $documento = new Documento();
         Documento::crearDocumento($datos, $codigo);
     }
 

@@ -32,8 +32,9 @@ class Documento extends Model
         } else {
             preg_match_all('/\d+/', $ultimoRegistro, $coincidencias);
             if (!empty($coincidencias)) {
-                $consecutivo = $coincidencias[0];   
-                $codigoDocumento = $codigo . $consecutivo+1;
+                $consecutivo = $coincidencias[0];
+                $incrementado = $consecutivo[0] + 1;
+                $codigoDocumento = $codigo . "-" . $incrementado;
             }
         }
         
