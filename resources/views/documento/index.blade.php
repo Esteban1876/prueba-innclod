@@ -14,9 +14,8 @@
     <table class="table table-light">
         <thead class="thead-light text-center fs-5">
             <tr>
-                <th>Id</th>
-                <th>Nombre</th>
                 <th>Código</th>
+                <th>Nombre</th>
                 <th>Contenido</th>
                 <th>Tipo de documento</th>
                 <th>Proceso</th>
@@ -26,9 +25,8 @@
         <tbody class="text-center fs-6">
             @foreach ($documentos as $documento)
                 <tr>
-                    <td> {{$documento->DOC_ID}} </td>
-                    <td> {{$documento->DOC_NOMBRE}} </td>
                     <td> {{$documento->DOC_CODIGO}} </td>
+                    <td> {{$documento->DOC_NOMBRE}} </td>
                     <td> {{$documento->DOC_CONTENIDO}} </td>
                     <td> {{$documento->tipoDocumentos->TIP_PREFIJO}} </td>
                     <td> {{$documento->procesos->PRO_PREFIJO}} </td>
