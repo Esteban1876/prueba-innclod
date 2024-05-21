@@ -1,5 +1,8 @@
 ## Primeros pasos
 
+Clonar el repositorio
+git clone https://github.com/Esteban1876/prueba-innclod.git
+
 Se debe crear la base de datos manualmente
 - Nombre = prueba
 - usuario = postgres
