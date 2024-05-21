@@ -8,6 +8,7 @@ Se debe crear la base de datos manualmente
 Se debe instalar node.js
 
 ## Archivo de configuración .env
+Aparece como .env.example - Renombrar el archivo y dejarlo como ".env"
 - DB_CONNECTION=pgsql
 - DB_HOST=localhost
 - DB_PORT=5432
@@ -17,13 +18,18 @@ Se debe instalar node.js
 
 ### Se deben ejecutar los siguientes comandos
 - composer i = Instala todos los paquetes y depencias del proyecto
-- npm i bootstrap = Instala bootstrap en el proyecto
+- php artisan key:generate
 - php artisan migrate --seed = Crea las tablas y las llena con 5 registros a cada una
+- npm i bootstrap = Instala bootstrap en el proyecto
 - composer require laravel/ui = Instala todo lo necesario para la interfaz gráfica del proyecto
-- php artisan ui bootstrap --auth = Integra bootstrap para hacer la autenticación del login
 - npm i = Instala las dependencias para el correcto funcionamiento del front
 - php artisan serve = Ejecuta el servidor de laravel (Para ingresar a la aplicación se debe copiar la dirección devuelta por el comando) - http://127.0.0.1:8000
-- npm run dev = Ejecuta el servidor en modo desarrollo (Es probable que salga un mensaje diciendo que instalo otra dependencia y que se debe ejecutar nuevamente el comando, de ser así ejecutar nuevamente - npm run dev)
+
+- npm run dev = Ejecuta el servidor en modo desarrollo (Es probable que salga un mensaje diciendo que instalo otra dependencia y que se debe ejecutar nuevamente el comando, de ser así ejecutar nuevamente - npm run dev) - Se debe ejecutar en otra instancia de la consola
+
+### credenciales de acceso
+- correo = prueba@gmail.com
+- clave = esteban1876!
 
 
 
