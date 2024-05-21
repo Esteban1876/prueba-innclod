@@ -149,15 +149,7 @@ class DocumentoController extends Controller
             Documento::where('DOC_ID', '=', $id)->update($datos);
         }
 
-        $prefijosTipoDocumento = TipoDocumento::all();
-        $documento = Documento::findOrfail($id);
-        $prefijosProcesos = Proceso::all();
-        return view('documento.edit', 
-        [
-            'prefijosTipoDocumento' => $prefijosTipoDocumento,
-            'prefijoProcesos' => $prefijosProcesos,
-            'documento' => $documento
-        ]);
+        return redirect('documento')->with('mensaje', 'Se edito el documento');
     }
 
     /**
